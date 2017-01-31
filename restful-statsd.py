@@ -1,7 +1,7 @@
 # restful-statsd
 # Author: Reed Odeneal
 
-import logging, yaml, statsd, socket
+import os, logging, yaml, statsd, socket
 from flask import Flask, jsonify, request
 from flask_api import status
 
@@ -38,11 +38,11 @@ def recordMetric():
 
 if __name__ == "__main__":
 
-	with open("version.py") as vf:
+	with open(os.path.dirname(os.path.realpath(__file__)) + "/version.py") as vf:
 		exec(vf.read())
 
 	logger.info("Loading config")
-	config = yaml.safe_load(open("config.yaml"))
+	config = yaml.safe_load(open(os.path.dirname(os.path.realpath(__file__)) + "/config.yaml"))
 
 	# we have to pass the ip of the statsd endpoint to the client, so
 	if not config["statsd.server"].isdigit():
